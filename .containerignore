@@ -1,0 +1,7 @@
+.github
+.envrc
+*.md
+LICENSE
+Makefile
+prfix.bash
+manifest.scm
