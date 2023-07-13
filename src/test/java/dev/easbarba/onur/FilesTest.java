@@ -32,8 +32,8 @@ public class FilesTest {
     }
 
     @Test
-    public void shouldCountExactly() {
-        assertEquals(this.files.count(), 5);
+    public void shouldHaveValidFilesExactly() {
+        assertEquals(this.files.count(), 2);
     }
 
     @Test

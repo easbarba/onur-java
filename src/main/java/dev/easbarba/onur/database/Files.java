@@ -17,6 +17,7 @@ package dev.easbarba.onur.database;
 
 import dev.easbarba.onur.misc.Globals;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,7 +27,6 @@ public final class Files {
 
     public Files() {
         var globals = Globals.getInstance();
-
         this.configHome = new File(globals.get("config-home"));
     }
 
@@ -34,12 +34,32 @@ public final class Files {
         return Stream.of(this.configHome.listFiles())
                 .map(File::getName)
                 .filter(file -> file.endsWith(".json"))
+                .filter(file -> valid(file))
                 .sorted()
                 .collect(Collectors.toSet());
     }
 
+    // Check if file has all needed atttributes.
+    private boolean valid(String file) {
+        var currentFile = Paths.get(configHome.toString(), file).toFile();
+
+        if (!currentFile.exists()) {
+            return false;
+        }
+
+        if (currentFile.length() == 0) {
+            return false;
+        }
+
+        return true;
+    }
+
     public long count() {
-        return this.configHome.listFiles().length;
+        return Stream.of(this.configHome.listFiles())
+                .map(File::getName)
+                .filter(file -> file.endsWith(".json"))
+                .filter(file -> valid(file))
+                .collect(Collectors.toSet()).toArray().length;
     }
 
     public Boolean exists() {

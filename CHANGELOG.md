@@ -16,6 +16,9 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
 ## 0.2.0
 
 - feat: add database files discovery
+- chore: improve ops
+- feat: globals as info container
+- feat: check if files are valid
 
 ## 0.1.0
 

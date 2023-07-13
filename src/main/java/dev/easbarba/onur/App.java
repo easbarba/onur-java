@@ -15,28 +15,26 @@
 
 package dev.easbarba.onur;
 
-import dev.easbarba.onur.database.Files;
+import dev.easbarba.onur.commands.Backup;
+import dev.easbarba.onur.commands.Grab;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "onur", mixinStandardHelpOptions = true, version = "0.1.0",
-         description = "Easily manage multiple FLOSS repositories.")
+@Command(name = "onur", mixinStandardHelpOptions = true, version = "0.1.0", description = "Easily manage multiple FLOSS repositories.")
 public final class App implements Callable<Integer> {
-  @Option(names = {"-v", "--verbose"},
-          description = "Provides more information.")
+  @Option(names = { "-v", "--verbose" }, description = "Provides more information.")
   private boolean verbose;
 
   @Command(description = "Grab projects.")
   void grab() {
-    var files = new Files();
-    System.out.println(files.names());
+    new Grab().run();
   }
 
   @Command(description = "Backup projects.")
   void backup() {
-    System.out.println("Backing up");
+    new Backup.run();
   }
 
   @Override
