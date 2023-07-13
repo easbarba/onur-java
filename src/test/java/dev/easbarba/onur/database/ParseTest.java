@@ -13,7 +13,7 @@
 *  along with Onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
-package dev.easbarba.onur;
+package dev.easbarba.onur.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
