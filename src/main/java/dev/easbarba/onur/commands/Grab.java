@@ -15,11 +15,12 @@
 
 package dev.easbarba.onur.commands;
 
-import dev.easbarba.onur.database.Files;
+import dev.easbarba.onur.database.Parse;
 
 public class Grab {
     public void run() {
-        var files = new Files();
-        System.out.println(files.names());
+        var parse = new Parse();
+
+        System.out.println(parse.all().get("misc.json").projects().get(1));
     }
 }

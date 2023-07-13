@@ -31,12 +31,23 @@ public final class Files {
     }
 
     public Set<String> names() {
+        return base()
+                .sorted()
+                .collect(Collectors.toSet());
+    }
+
+    public Set<File> namespath() {
+        return base()
+                .map(file -> Paths.get(configHome.toString(), file).toFile())
+                .sorted()
+                .collect(Collectors.toSet());
+    }
+
+    private Stream<String> base() {
         return Stream.of(this.configHome.listFiles())
                 .map(File::getName)
                 .filter(file -> file.endsWith(".json"))
-                .filter(file -> valid(file))
-                .sorted()
-                .collect(Collectors.toSet());
+                .filter(file -> valid(file));
     }
 
     // Check if file has all needed atttributes.
@@ -55,11 +66,7 @@ public final class Files {
     }
 
     public long count() {
-        return Stream.of(this.configHome.listFiles())
-                .map(File::getName)
-                .filter(file -> file.endsWith(".json"))
-                .filter(file -> valid(file))
-                .collect(Collectors.toSet()).toArray().length;
+        return base().collect(Collectors.toSet()).toArray().length;
     }
 
     public Boolean exists() {

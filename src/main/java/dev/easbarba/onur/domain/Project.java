@@ -15,5 +15,88 @@
 
 package dev.easbarba.onur.domain;
 
-public final record Project(String name, String branch, String url) {
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+
+public final class Project {
+    private String name;
+
+    @JsonSetter(nulls = Nulls.SKIP)
+    private String branch = "master";
+    private String url;
+
+    public Project() {
+    }
+
+    public Project(String name, String branch, String url) {
+        this.name = name;
+        this.branch = branch;
+        this.url = url;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((branch == null) ? 0 : branch.hashCode());
+        result = prime * result + ((url == null) ? 0 : url.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Project other = (Project) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (branch == null) {
+            if (other.branch != null)
+                return false;
+        } else if (!branch.equals(other.branch))
+            return false;
+        if (url == null) {
+            if (other.url != null)
+                return false;
+        } else if (!url.equals(other.url))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Project [name=" + name + ", branch=" + branch + ", url=" + url + "]";
+    }
 }

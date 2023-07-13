@@ -34,7 +34,7 @@ public final class App implements Callable<Integer> {
 
   @Command(description = "Backup projects.")
   void backup() {
-    new Backup.run();
+    new Backup().run();
   }
 
   @Override

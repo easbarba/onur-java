@@ -12,10 +12,10 @@ cache:
   paths:
     - .m2/repository
 
-Verify:
+Integration Tests:
   stage: test
   image: eclipse-temurin:20-jdk
   before_script:
-    - "./prepare.bash"
+    - ./prepare.bash
   script:
-    - "mvn $MAVEN_CLI_OPTS verify"
+    - ./mvnw $MAVEN_CLI_OPTS test

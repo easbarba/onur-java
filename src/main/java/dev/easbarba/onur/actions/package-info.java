@@ -13,9 +13,4 @@
 *  along with Onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
-package dev.easbarba.onur.domain;
-
-import java.util.List;
-
-public final record Configuration(String topic, List<Project> projects) {
-}
+package dev.easbarba.onur.actions;

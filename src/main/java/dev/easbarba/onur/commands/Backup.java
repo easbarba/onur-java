@@ -15,7 +15,10 @@
 
 package dev.easbarba.onur.commands;
 
-public class Backup {
+public final class Backup {
+    public Backup() {
+    }
+
     public void run() {
         System.out.println("Backing up");
     }

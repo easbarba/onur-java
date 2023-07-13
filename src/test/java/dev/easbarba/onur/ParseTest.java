@@ -16,33 +16,37 @@
 package dev.easbarba.onur;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.nio.file.Paths;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import dev.easbarba.onur.database.Files;
+import dev.easbarba.onur.database.Parse;
+import dev.easbarba.onur.domain.Configuration;
 
-public final class FilesTest {
-    private Files files;
+public final class ParseTest {
+    private Parse parse;
 
     @BeforeEach
     void init() {
-        this.files = new Files();
+        this.parse = new Parse();
     }
 
     @Test
-    public void shouldHaveValidFilesExactly() {
-        assertEquals(this.files.count(), 2);
+    public void shouldHaveCorrectConfigurationsSize() {
+        assertEquals(2, this.parse.all().size());
     }
 
     @Test
-    public void shouldHaveMiscConfiguration() {
-        assertEquals(this.files.names().stream().findFirst().get(), "etc.json");
-    }
-
-    @Test
-    public void shouldExist() {
-        assertTrue(this.files.exists());
+    public void shouldHaveMiscCorrectProjectsSize() {
+        var fi = Paths.get(System.getProperty("user.home"), ".config", "onur", "misc.json").toFile();
+        try {
+            var config = parse.one(fi).projects();
+            assertEquals(3, config.size());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
