@@ -14,7 +14,7 @@ cache:
 
 Verify:
   stage: test
-  image: maven:3-eclipse-temurin-17
+  image: eclipse-temurin:20-jdk
   before_script:
     - "./prepare.bash"
   script:

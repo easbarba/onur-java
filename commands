@@ -8,7 +8,7 @@ dependency:purge-local-repository
 versions:display-plugin-updates
 versions:display-dependency-updates
 
-exec:java -Dexec.args="backup"
-exec:java -Dexec.args="grab"
-exec:java -Dexec.args="--help"
-exec:java -Dexec.args=""
+exec:java -D exec.args="backup"
+exec:java -D exec.args="grab"
+exec:java -D exec.args="--help"
+exec:java -D exec.args=""

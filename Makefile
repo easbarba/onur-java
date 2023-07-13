@@ -13,31 +13,34 @@
 
 # DEPENDENCIES: gawk, fzf, podman
 
-NAME := onur
-VERSION := $(shell gawk '/<version>/ { version=substr($$1,10,5); print version; exit }' pom.xml)
-FULLNAME := ${USER}/${NAME}:${VERSION}
+-include .env
 
 RUNNER ?= podman
-MAVEN_CONTAINER := maven:3-eclipse-temurin-17
-REPL_COMMAND := ${COMMAND}
+NAME := onur
+VERSION := $(shell gawk '/<version>/ { version=substr($$1,10,5); print version; exit }' pom.xml)
 
-cmds:
-	${RUNNER} run --rm -it \
+command:
+	@${RUNNER} run --rm -it \
 		--volume ${PWD}:/app:Z \
 		--workdir /app \
-		${MAVEN_CONTAINER} bash -c './prepare.bash && ./mvnw $(shell cat maven_commands | fzf) --settings ./.mvn/settings.xml'
+		${OPENJDK_IMAGE} \
+		bash -c './prepare.bash && ./mvnw --settings ./.mvn/settings.xml $(shell cat commands | fzf)'
+
+test:
+	@${RUNNER} run --rm -it \
+		--volume ${PWD}:/app:Z \
+		--workdir /app \
+		${OPENJDK_IMAGE} \
+		bash -c './prepare.bash && ./mvnw --settings clean test'
 
 repl:
-	${RUNNER} run --rm -it \
+	@${RUNNER} run --rm -it \
 		--volume ${PWD}:/app:Z \
 		--workdir /app \
-		${MAVEN_CONTAINER} bash
+		${OPENJDK_IMAGE} bash
 
 build:
-	${RUNNER} build --file ./Containerfile --tag ${FULLNAME}
+	${RUNNER} build --file ./Containerfile --tag ${USER}/${NAME}:${VERSION}
 
-native:
-	native-image -cp classes:./build/libs/javafinder-17.0.5-fat.jar --initialize-at-build-time=Constants -H:Name=javafinder eu.hansolo.javafinder.Main --no-fallback
-
-.PHONY: test repl build cmds native
+.PHONY: test repl build command native
 .DEFAULT_GOAL := test
