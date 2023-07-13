@@ -15,21 +15,40 @@
 
 package dev.easbarba.onur.misc;
 
-import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
  * Provides general project information.
  */
 public final class Globals {
-    private String homeDir = System.getProperty("user.home");
-    private Path configHome = java.nio.file.Paths.get(this.homeDir,
-            ".config", "onur");
+    private static Globals instance = null;
+    private Map<String, String> proprieties = new HashMap<String, String>();
 
-    public String getHomeDir() {
-        return this.homeDir;
+    public Globals() {
+        defaultProperties();
     }
 
-    public Path getConfigHome() {
-        return this.configHome;
+    public static Globals getInstance() {
+        if (instance == null) {
+            instance = new Globals();
+        }
+
+        return instance;
+    }
+
+    private void defaultProperties() {
+        var homeDir = System.getProperty("user.home");
+
+        set("home", homeDir);
+        set("config-home", java.nio.file.Paths.get(homeDir, ".config", "onur").toString());
+    }
+
+    public String get(String key) {
+        return proprieties.get(key);
+    }
+
+    public void set(String key, String value) {
+        this.proprieties.put(key, value);
     }
 }
