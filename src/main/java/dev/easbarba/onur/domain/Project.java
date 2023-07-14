@@ -23,6 +23,7 @@ public final class Project {
 
     @JsonSetter(nulls = Nulls.SKIP)
     private String branch = "master";
+
     private String url;
 
     public Project() {

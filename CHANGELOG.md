@@ -19,6 +19,9 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
 - chore: improve ops
 - feat: globals as info container
 - feat: check if files are valid
+- feat: parse all files
+- feat: more tests
+- feat: implement basic clone and pull actions
 
 ## 0.1.0
 

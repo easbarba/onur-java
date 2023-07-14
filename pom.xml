@@ -78,6 +78,18 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
     <artifactId>exec-maven-plugin</artifactId>
     <version>3.1.0</version>
   </dependency>
+
+  <dependency>
+    <groupId>org.eclipse.jgit</groupId>
+    <artifactId>org.eclipse.jgit</artifactId>
+    <version>6.6.0.202305301015-r</version>
+  </dependency>
+
+  <dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>2.13.0</version>
+  </dependency>
 	</dependencies>
 
   <build>

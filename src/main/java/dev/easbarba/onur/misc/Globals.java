@@ -42,6 +42,7 @@ public final class Globals {
 
         set("home", homeDir);
         set("config-home", java.nio.file.Paths.get(homeDir, ".config", "onur").toString());
+        set("projects-home", java.nio.file.Paths.get(homeDir, "Projects").toString());
     }
 
     public String get(String key) {

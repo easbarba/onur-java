@@ -6,10 +6,11 @@
     {
         "name": "nuxt",
         "branch": "main",
-        "url": "https://github.com/nuxt/framework"
+        "url": "https://github.com/nuxt/nuxt"
     },
     {
         "name": "swift_format",
+        "branch": "main",
         "url": "https://github.com/apple/swift-format"
     }
 ]

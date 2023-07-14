@@ -2,13 +2,18 @@ test
 checkstyle:check
 validate
 verify
-dependency:tree
-dependency:purge-local-repository
-
-versions:display-plugin-updates
-versions:display-dependency-updates
+compile
+install
 
 exec:java -D exec.args="backup"
 exec:java -D exec.args="grab"
 exec:java -D exec.args="--help"
 exec:java -D exec.args=""
+
+dependency:tree
+dependency:purge-local-repository
+dependency:resolve
+
+versions:display-plugin-updates
+versions:display-dependency-updates
+

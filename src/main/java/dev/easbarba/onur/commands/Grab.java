@@ -15,12 +15,65 @@
 
 package dev.easbarba.onur.commands;
 
+import java.io.File;
+import java.nio.file.Paths;
+import org.eclipse.jgit.api.Git;
 import dev.easbarba.onur.database.Parse;
+import dev.easbarba.onur.misc.Globals;
 
 public class Grab {
-    public void run() {
-        var parse = new Parse();
 
-        System.out.println(parse.all().get("misc.json").projects().get(1));
+    private void klone(String url, File root, String branch) {
+        try {
+            Git.cloneRepository()
+                    .setURI(url)
+                    .setBranch(branch)
+                    .setDirectory(root)
+                    .setDepth(1)
+                    .setCloneAllBranches(false)
+                    .call()
+                    .close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    private void pull(File folder, String branch) {
+        try (var git = Git.open(folder)) {
+            var results = git.pull()
+                    .setRemote("origin")
+                    .setRemoteBranchName(branch)
+                    .call();
+            System.out.println(results);
+            git.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void run() {
+        try {
+            Globals globals = Globals.getInstance();
+            var parse = new Parse();
+            parse.all().forEach(cfg -> {
+                System.out.println(new StringBuilder("\n").append(cfg.topic()).append(": \n"));
+
+                cfg.projects().forEach(pj -> {
+                    var root = Paths.get(globals.get("projects-home"), cfg.topic(), pj.getName()).toFile();
+
+                    System.out.println(pj.getName());
+
+                    if (root.exists()) {
+                        pull(root, pj.getBranch());
+                    } else {
+                        klone(pj.getUrl(), root, pj.getBranch());
+                    }
+                });
+            });
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

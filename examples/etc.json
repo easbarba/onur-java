@@ -1,6 +1,7 @@
 [
     {
         "name": "guzzle",
+        "branch": "7.7",
         "url": "https://github.com/guzzle/guzzle"
     },
     {
