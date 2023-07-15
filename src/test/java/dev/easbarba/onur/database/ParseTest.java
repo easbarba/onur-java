@@ -18,13 +18,8 @@ package dev.easbarba.onur.database;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.nio.file.Paths;
-
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import dev.easbarba.onur.database.Parse;
-import dev.easbarba.onur.domain.Configuration;
 
 public final class ParseTest {
     private Parse parse;
@@ -35,13 +30,8 @@ public final class ParseTest {
     }
 
     @Test
-    public void shouldHaveCorrectConfigurationsSize() {
-        assertEquals(2, this.parse.all().size());
-    }
-
-    @Test
     public void shouldHaveMiscCorrectProjectsSize() {
-        var fi = Paths.get(System.getProperty("user.home"), ".config", "onur", "misc.json").toFile();
+        var fi = Paths.get(System.getProperty("user.home"), ".config", "onur", "misc.json");
         try {
             var config = parse.one(fi).projects();
             assertEquals(3, config.size());

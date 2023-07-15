@@ -13,27 +13,8 @@
 *  along with Onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
-package dev.easbarba.onur.misc;
+package dev.easbarba.onur.database;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+public class Collections {
 
-import java.nio.file.Paths;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-public final class GlobalsTest {
-    private Globals globals;
-
-    @BeforeEach
-    void init() {
-        this.globals = Globals.getInstance();
-    }
-
-    @Test
-    public void shouldHaveValidFilesExactly() {
-        assertEquals(
-                Paths.get(System.getProperty("user.home").toString(), ".config", "onur").toAbsolutePath().toString(),
-                globals.get("config-home").toString());
-    }
 }

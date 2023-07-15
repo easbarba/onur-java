@@ -15,6 +15,7 @@
 
 package dev.easbarba.onur.misc;
 
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ import java.util.Map;
  */
 public final class Globals {
     private static Globals instance = null;
-    private Map<String, String> proprieties = new HashMap<String, String>();
+    private Map<String, Object> proprieties = new HashMap<String, Object>();
 
     public Globals() {
         defaultProperties();
@@ -39,17 +40,27 @@ public final class Globals {
 
     private void defaultProperties() {
         var homeDir = System.getProperty("user.home");
+        var props = new HashMap<String, Object>();
 
-        set("home", homeDir);
-        set("config-home", java.nio.file.Paths.get(homeDir, ".config", "onur").toString());
-        set("projects-home", java.nio.file.Paths.get(homeDir, "Projects").toString());
+        props.put("home", homeDir);
+        props.put("config-home", Path.of(homeDir, ".config", "onur"));
+        props.put("projects-home", Path.of(homeDir, "Projects"));
+
+        set(props);
     }
 
-    public String get(String key) {
+    public Object get(String key) {
         return proprieties.get(key);
     }
 
-    public void set(String key, String value) {
+    public void set(String key, Object value) {
         this.proprieties.put(key, value);
+    }
+
+    public void set(Map<String, Object> keyvalue) {
+        keyvalue.entrySet()
+                .forEach(prop -> {
+                    this.proprieties.put(prop.getKey(), prop.getValue());
+                });
     }
 }

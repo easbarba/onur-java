@@ -21,8 +21,7 @@ import org.eclipse.jgit.api.Git;
 import dev.easbarba.onur.database.Parse;
 import dev.easbarba.onur.misc.Globals;
 
-public class Grab {
-
+public class Grab implements ICommands {
     private void klone(String url, File root, String branch) {
         try {
             Git.cloneRepository()
@@ -41,26 +40,28 @@ public class Grab {
 
     private void pull(File folder, String branch) {
         try (var git = Git.open(folder)) {
-            var results = git.pull()
+            git.pull()
                     .setRemote("origin")
                     .setRemoteBranchName(branch)
                     .call();
-            System.out.println(results);
+
             git.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
+    @Override
     public void run() {
         try {
             Globals globals = Globals.getInstance();
             var parse = new Parse();
+
             parse.all().forEach(cfg -> {
                 System.out.println(new StringBuilder("\n").append(cfg.topic()).append(": \n"));
 
                 cfg.projects().forEach(pj -> {
-                    var root = Paths.get(globals.get("projects-home"), cfg.topic(), pj.getName()).toFile();
+                    var root = Paths.get(globals.get("projects-home").toString(), cfg.topic(), pj.getName()).toFile();
 
                     System.out.println(pj.getName());
 

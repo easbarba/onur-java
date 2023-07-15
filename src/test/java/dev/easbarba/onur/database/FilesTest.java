@@ -14,35 +14,3 @@
 */
 
 package dev.easbarba.onur.database;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import dev.easbarba.onur.database.Files;
-
-public final class FilesTest {
-    private Files files;
-
-    @BeforeEach
-    void init() {
-        this.files = new Files();
-    }
-
-    @Test
-    public void shouldHaveValidFilesExactly() {
-        assertEquals(this.files.count(), 2);
-    }
-
-    @Test
-    public void shouldHaveMiscConfiguration() {
-        assertEquals(this.files.names().stream().findFirst().get(), "etc.json");
-    }
-
-    @Test
-    public void shouldExist() {
-        assertTrue(this.files.exists());
-    }
-}

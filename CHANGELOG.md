@@ -22,6 +22,7 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
 - feat: parse all files
 - feat: more tests
 - feat: implement basic clone and pull actions
+- refactor: improve solidness of config querying
 
 ## 0.1.0
 

@@ -2,8 +2,8 @@ test
 checkstyle:check
 validate
 verify
-compile
-install
+clean compile
+clean install
 
 exec:java -D exec.args="backup"
 exec:java -D exec.args="grab"

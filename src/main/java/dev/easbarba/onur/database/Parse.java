@@ -15,12 +15,10 @@
 
 package dev.easbarba.onur.database;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FilenameUtils;
 
@@ -28,17 +26,17 @@ import dev.easbarba.onur.domain.Configuration;
 import dev.easbarba.onur.domain.Project;
 
 public final class Parse {
-    private Files files = new Files();
+    private Configurations files = new Configurations();
 
     public Parse() {
     }
 
     // Parse one configuration file
-    public Configuration one(File file) throws Exception {
+    public Configuration one(Path file) throws Exception {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            List<Project> project = Arrays.asList(mapper.readValue(file, Project[].class));
-            var name = FilenameUtils.removeExtension(file.getName());
+            List<Project> project = Arrays.asList(mapper.readValue(file.toFile(), Project[].class));
+            var name = FilenameUtils.removeExtension(file.getFileName().toString());
 
             return new Configuration(name, project);
         } catch (Exception ex) {

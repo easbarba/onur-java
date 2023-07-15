@@ -15,12 +15,6 @@
 
 package dev.easbarba.onur.commands;
 
-public final class Backup implements ICommands {
-    public Backup() {
-    }
-
-    @Override
-    public void run() {
-        System.out.println("Backing up");
-    }
+public interface ICommands {
+    public void run();
 }
