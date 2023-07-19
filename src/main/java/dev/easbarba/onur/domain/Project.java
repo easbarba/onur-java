@@ -29,7 +29,7 @@ public final class Project {
     public Project() {
     }
 
-    public Project(String name, String branch, String url) {
+    public Project(final String name, final String branch, final String url) {
         this.name = name;
         this.branch = branch;
         this.url = url;
@@ -39,7 +39,7 @@ public final class Project {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -47,7 +47,7 @@ public final class Project {
         return branch;
     }
 
-    public void setBranch(String branch) {
+    public void setBranch(final String branch) {
         this.branch = branch;
     }
 
@@ -55,7 +55,7 @@ public final class Project {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
 
@@ -70,14 +70,14 @@ public final class Project {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Project other = (Project) obj;
+        final Project other = (Project) obj;
         if (name == null) {
             if (other.name != null)
                 return false;

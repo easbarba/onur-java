@@ -15,9 +15,39 @@
 
 package dev.easbarba.onur.actions;
 
-public class Klone implements IAction {
+import java.io.File;
+
+import org.eclipse.jgit.api.Git;
+
+public class Klone implements Runnable {
+    private final String url;
+    private final File root;
+    private final String branch;
+
+    public Klone(final String url, final File root, final String branch) {
+        this.url = url;
+        this.root = root;
+        this.branch = branch;
+    }
+
     @Override
     public void run() {
-        throw new UnsupportedOperationException("Unimplemented method 'run'");
+        try {
+            Git.cloneRepository()
+                    .setURI(url)
+                    .setBranch(branch)
+                    .setDirectory(root)
+                    .setDepth(1)
+                    .setCloneAllBranches(false)
+                    .call()
+                    .close();
+        } catch (final Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Pull [url=" + url + ", root=" + root + ", branch=" + branch + "]";
     }
 }

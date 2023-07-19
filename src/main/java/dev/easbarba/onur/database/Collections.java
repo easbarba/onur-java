@@ -16,5 +16,4 @@
 package dev.easbarba.onur.database;
 
 public class Collections {
-
 }

@@ -15,10 +15,30 @@
 
 package dev.easbarba.onur.actions;
 
-public class Pull implements IAction {
-    @Override
-    public void run() {
-        throw new UnsupportedOperationException("Unimplemented method 'run'");
+import java.io.File;
+
+import org.eclipse.jgit.api.Git;
+
+public class Pull implements Runnable {
+    private final File root;
+    private final String branch;
+
+    public Pull(final File root, final String branch) {
+        this.root = root;
+        this.branch = branch;
     }
 
+    @Override
+    public void run() {
+        try (final var git = Git.open(root)) {
+            git.pull()
+                    .setRemote("origin")
+                    .setRemoteBranchName(branch)
+                    .call();
+
+            git.close();
+        } catch (final Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

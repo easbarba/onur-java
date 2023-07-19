@@ -15,66 +15,47 @@
 
 package dev.easbarba.onur.commands;
 
-import java.io.File;
 import java.nio.file.Paths;
-import org.eclipse.jgit.api.Git;
+
+import dev.easbarba.onur.actions.Klone;
+import dev.easbarba.onur.actions.Pull;
 import dev.easbarba.onur.database.Parse;
 import dev.easbarba.onur.misc.Globals;
 
 public class Grab implements ICommands {
-    private void klone(String url, File root, String branch) {
-        try {
-            Git.cloneRepository()
-                    .setURI(url)
-                    .setBranch(branch)
-                    .setDirectory(root)
-                    .setDepth(1)
-                    .setCloneAllBranches(false)
-                    .call()
-                    .close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-    }
-
-    private void pull(File folder, String branch) {
-        try (var git = Git.open(folder)) {
-            git.pull()
-                    .setRemote("origin")
-                    .setRemoteBranchName(branch)
-                    .call();
-
-            git.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
     @Override
-    public void run() {
-        try {
-            Globals globals = Globals.getInstance();
-            var parse = new Parse();
+    public void run() throws InterruptedException {
+        final Globals globals = Globals.getInstance();
+        final var parse = new Parse();
 
-            parse.all().forEach(cfg -> {
-                System.out.println(new StringBuilder("\n").append(cfg.topic()).append(": \n"));
+        parse.all().forEach(cfg -> {
+            System.out.println(new StringBuilder("\n").append(cfg.topic()).append(": \n"));
 
-                cfg.projects().forEach(pj -> {
-                    var root = Paths.get(globals.get("projects-home").toString(), cfg.topic(), pj.getName()).toFile();
+            cfg.projects().forEach(pj -> {
+                final var root = Paths.get(globals.get("projects-home").toString(), cfg.topic(), pj.getName()).toFile();
 
-                    System.out.println(pj.getName());
+                System.out.println(pj.getName());
 
-                    if (root.exists()) {
-                        pull(root, pj.getBranch());
-                    } else {
-                        klone(pj.getUrl(), root, pj.getBranch());
+                if (root.exists()) {
+                    final var p = new Thread(new Pull(root, pj.getBranch()));
+                    p.start();
+
+                    try {
+                        p.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                });
-            });
+                } else {
+                    final var k = new Thread(new Klone(pj.getUrl(), root, pj.getBranch()));
+                    k.start();
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+                    try {
+                        k.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        });
     }
 }

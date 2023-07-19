@@ -26,32 +26,32 @@ import dev.easbarba.onur.domain.Configuration;
 import dev.easbarba.onur.domain.Project;
 
 public final class Parse {
-    private Configurations files = new Configurations();
+    private final Configurations files = new Configurations();
 
     public Parse() {
     }
 
     // Parse one configuration file
-    public Configuration one(Path file) throws Exception {
+    public Configuration one(final Path file) throws Exception {
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            List<Project> project = Arrays.asList(mapper.readValue(file.toFile(), Project[].class));
-            var name = FilenameUtils.removeExtension(file.getFileName().toString());
+            final ObjectMapper mapper = new ObjectMapper();
+            final List<Project> project = Arrays.asList(mapper.readValue(file.toFile(), Project[].class));
+            final var name = FilenameUtils.removeExtension(file.getFileName().toString());
 
             return new Configuration(name, project);
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             throw ex;
         }
     }
 
     // Bundle all configuration files.
     public List<Configuration> all() {
-        List<Configuration> configurations = new ArrayList<Configuration>();
+        final List<Configuration> configurations = new ArrayList<Configuration>();
 
         files.namespath().forEach(file -> {
             try {
                 configurations.add(one(file));
-            } catch (Exception ex) {
+            } catch (final Exception ex) {
                 ex.printStackTrace();
             }
         });

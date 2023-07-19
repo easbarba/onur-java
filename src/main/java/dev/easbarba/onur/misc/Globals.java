@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public final class Globals {
     private static Globals instance = null;
-    private Map<String, Object> proprieties = new HashMap<String, Object>();
+    private final Map<String, Object> proprieties = new HashMap<String, Object>();
 
     public Globals() {
         defaultProperties();
@@ -39,8 +39,8 @@ public final class Globals {
     }
 
     private void defaultProperties() {
-        var homeDir = System.getProperty("user.home");
-        var props = new HashMap<String, Object>();
+        final var homeDir = System.getProperty("user.home");
+        final var props = new HashMap<String, Object>();
 
         props.put("home", homeDir);
         props.put("config-home", Path.of(homeDir, ".config", "onur"));
@@ -49,15 +49,15 @@ public final class Globals {
         set(props);
     }
 
-    public Object get(String key) {
+    public Object get(final String key) {
         return proprieties.get(key);
     }
 
-    public void set(String key, Object value) {
+    public void set(final String key, final Object value) {
         this.proprieties.put(key, value);
     }
 
-    public void set(Map<String, Object> keyvalue) {
+    public void set(final Map<String, Object> keyvalue) {
         keyvalue.entrySet()
                 .forEach(prop -> {
                     this.proprieties.put(prop.getKey(), prop.getValue());

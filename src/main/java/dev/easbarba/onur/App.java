@@ -29,7 +29,11 @@ public final class App implements Callable<Integer> {
 
   @Command(description = "Grab projects.")
   void grab() {
-    new Grab().run();
+    try {
+      new Grab().run();
+    } catch (final InterruptedException e) {
+      e.printStackTrace();
+    }
   }
 
   @Command(description = "Backup projects.")
@@ -44,7 +48,7 @@ public final class App implements Callable<Integer> {
   }
 
   public static void main(final String... args) {
-    int exitCode = new CommandLine(new App()).execute(args);
+    final int exitCode = new CommandLine(new App()).execute(args);
     System.exit(exitCode);
   }
 }

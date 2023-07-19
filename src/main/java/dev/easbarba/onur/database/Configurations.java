@@ -24,17 +24,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public final class Configurations {
-    private Path configHome;
+    private final Path configHome;
 
     public Configurations() {
-        var globals = Globals.getInstance();
+        final var globals = Globals.getInstance();
         this.configHome = (Path) globals.get("config-home");
     }
 
     public Set<Path> namespath() {
         try {
             return base();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             return null;
         }
     }
@@ -46,7 +46,7 @@ public final class Configurations {
                     .filter(file -> { // remove empty files
                         try {
                             return Files.size(file) != 0;
-                        } catch (IOException ex) {
+                        } catch (final IOException ex) {
                             // ex.printStackTrace(); // to log
                             return false;
                         }
@@ -54,7 +54,7 @@ public final class Configurations {
                     .filter(file -> file.toString().endsWith(".json")) // json files only
                     .sorted()
                     .collect(Collectors.toSet());
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             throw ex;
         }
     }
@@ -62,7 +62,7 @@ public final class Configurations {
     public long count() {
         try {
             return base().toArray().length;
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             ex.printStackTrace();
             return 0;
         }
