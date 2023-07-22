@@ -18,6 +18,7 @@ package dev.easbarba.onur.actions;
 import java.io.File;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.microprofile.config.ConfigProvider;
 
 public class Klone implements Runnable {
     private final String url;
@@ -32,13 +33,15 @@ public class Klone implements Runnable {
 
     @Override
     public void run() {
+        var config = ConfigProvider.getConfig();
+
         try {
             Git.cloneRepository()
                     .setURI(url)
                     .setBranch(branch)
                     .setDirectory(root)
-                    .setDepth(1)
-                    .setCloneAllBranches(false)
+                    .setDepth(config.getValue("depth", Integer.class))
+                    .setCloneAllBranches(config.getValue("single-branch", Boolean.class))
                     .call()
                     .close();
         } catch (final Exception ex) {

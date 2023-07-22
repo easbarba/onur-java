@@ -57,12 +57,11 @@ More examples of configuration files are at `examples`.
 
 ## Settings
 
-```toml
-[base]
-single-branch = true
-quiet = true
-depth = 1
-```
+`Onur` uses a sensible default setting, but its a
+[https://microprofile.io/specifications/microprofile-config/](MicroProfile
+Config), so you can overwrite via system properties to maven or whatever.
+
+`mvn exec:java -D exec.args="grab" -D single-branch=true -D quiet=false -D depth=5`
 
 ## Options
 

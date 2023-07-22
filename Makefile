@@ -24,14 +24,14 @@ command:
 		--volume ${PWD}:/app:Z \
 		--workdir /app \
 		${OPENJDK_IMAGE} \
-		bash -c './prepare.bash && ./mvnw --settings ./.mvn/settings.xml $(shell cat commands | fzf)'
+		bash -c './prepare.bash && ./mvnw --settings ./.mvn/settings.xml clean compile $(shell cat commands | fzf)'
 
 test:
 	@${RUNNER} run --rm -it \
 		--volume ${PWD}:/app:Z \
 		--workdir /app \
 		${OPENJDK_IMAGE} \
-		bash -c './prepare.bash && ./mvnw --settings clean test'
+		bash -c './prepare.bash && ./mvnw --settings ./.mvn/settings.xml clean compile test'
 
 repl:
 	@${RUNNER} run --rm -it \

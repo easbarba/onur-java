@@ -14,6 +14,6 @@
 # along with Onur. If not, see <https://www.gnu.org/licenses/>.
 
 mkdir -p ~/.config/onur
-cp ./examples/* ~/.config/onur
+cp -r ./examples/* ~/.config/onur
 touch ~/.config/onur/emptyfile.json
 ln -sf ~/nonexistentfile ~/.config/onur/baz.json

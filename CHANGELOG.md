@@ -13,6 +13,10 @@ You should have received a copy of the GNU General Public License
 along with Onur. If not, see <https://www.gnu.org/licenses/>.
 -->
 
+## 0.3.0
+
+- feat: settings via microprofile config
+
 ## 0.2.0
 
 - feat: add database files discovery
