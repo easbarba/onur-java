@@ -19,7 +19,7 @@ import java.io.File;
 
 import org.eclipse.jgit.api.Git;
 
-public class Pull implements Runnable {
+public class Pull {
     private final File root;
     private final String branch;
 
@@ -28,7 +28,6 @@ public class Pull implements Runnable {
         this.branch = branch;
     }
 
-    @Override
     public void run() {
         try (final var git = Git.open(root)) {
             git.pull()

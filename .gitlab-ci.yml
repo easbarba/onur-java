@@ -14,7 +14,7 @@ cache:
 
 Integration Tests:
   stage: test
-  image: eclipse-temurin:20-jdk
+  image: eclipse-temurin:21-jdk
   before_script:
     - ./prepare.bash
   script:

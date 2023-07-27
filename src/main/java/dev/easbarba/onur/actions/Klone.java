@@ -20,7 +20,7 @@ import java.io.File;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.microprofile.config.ConfigProvider;
 
-public class Klone implements Runnable {
+public class Klone {
     private final String url;
     private final File root;
     private final String branch;
@@ -31,7 +31,6 @@ public class Klone implements Runnable {
         this.branch = branch;
     }
 
-    @Override
     public void run() {
         var config = ConfigProvider.getConfig();
 

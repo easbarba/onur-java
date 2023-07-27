@@ -17,10 +17,9 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
 
 Easily manage multiple FLOSS repositories.
 
-# Installation
+[go](https://github.com/easbarba/qas-go) | [rust](https://github.com/easbarba/onur-rust) | [python](https://github.com/easbarba/onur-python) | [c](https://github.com/easbarba/onur-c) | [php](https://github.com/easbarba/onur-php) | [ruby](https://github.com/easbarba/qas-ruby)
 
-[python](https://gitlab.com/easbarba/onur) |
-[php](https://gitlab.com/easbarba/onur_php) | [ruby](https://gitlab.com/easbarba/qas.rb) | [go](https://gitlab.com/easbarba/qas_go) | [api-go](https://gitlab.com/easbarba/qas_api_go)
+# Installation
 
 ## Usage
 
@@ -58,8 +57,7 @@ More examples of configuration files are at `examples`.
 ## Settings
 
 `Onur` uses a sensible default setting, but its a
-[https://microprofile.io/specifications/microprofile-config/](MicroProfile
-Config), so you can overwrite via system properties to maven or whatever.
+[MicroProfile-Config](https://microprofile.io/specifications/microprofile-config), so you can overwrite via system properties to maven or whatever.
 
 `mvn exec:java -D exec.args="grab" -D single-branch=true -D quiet=false -D depth=5`
 

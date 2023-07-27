@@ -20,35 +20,21 @@ import dev.easbarba.onur.commands.Grab;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
 
-@Command(name = "onur", mixinStandardHelpOptions = true, version = "0.1.0", description = "Easily manage multiple FLOSS repositories.")
-public final class App implements Callable<Integer> {
-  @Option(names = { "-v", "--verbose" }, description = "Provides more information.")
-  private boolean verbose;
-
-  @Command(description = "Grab projects.")
-  void grab() {
-    try {
-      new Grab().run();
-    } catch (final InterruptedException e) {
-      e.printStackTrace();
-    }
-  }
-
-  @Command(description = "Backup projects.")
-  void backup() {
-    new Backup().run();
-  }
-
+@Command(name = "onur",
+         mixinStandardHelpOptions = true,
+         version = "0.3.0",
+         description = "Easily manage multiple FLOSS repositories.",
+         subcommands = {  Grab.class, Backup.class })
+public final class OnurApplication implements Callable<Integer> {
   @Override
   public Integer call() throws Exception {
-    System.out.printf("Welcome");
+    System.out.printf("Onur");
     return 0;
   }
 
   public static void main(final String... args) {
-    final int exitCode = new CommandLine(new App()).execute(args);
+    final int exitCode = new CommandLine(new OnurApplication()).execute(args);
     System.exit(exitCode);
   }
 }

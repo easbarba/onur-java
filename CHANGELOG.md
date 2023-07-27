@@ -15,7 +15,7 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
 
 ## 0.3.0
 
-- feat: settings via microprofile config
+- feat: add logging and bump updates
 
 ## 0.2.0
 

@@ -15,47 +15,65 @@
 
 package dev.easbarba.onur.commands;
 
-import java.nio.file.Paths;
-
 import dev.easbarba.onur.actions.Klone;
 import dev.easbarba.onur.actions.Pull;
 import dev.easbarba.onur.database.Parse;
+import dev.easbarba.onur.domain.Project;
 import dev.easbarba.onur.misc.Globals;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
-public class Grab implements ICommands {
-    @Override
-    public void run() throws InterruptedException {
-        final Globals globals = Globals.getInstance();
-        final var parse = new Parse();
+import java.nio.file.Paths;
+import java.util.concurrent.Callable;
 
-        parse.all().forEach(cfg -> {
-            System.out.println(new StringBuilder("\n").append(cfg.topic()).append(": \n"));
+// import org.apache.logging.log4j.LogManager;
+// import org.apache.logging.log4j.Logger;
 
-            cfg.projects().forEach(pj -> {
-                final var root = Paths.get(globals.get("projects-home").toString(), cfg.topic(), pj.getName()).toFile();
+@Command(name = "grab", description = "Grab projects.")
+public class Grab implements ICommands, Callable<Integer> {
+  // private static final Logger LOGGER = LogManager.getLogger(Grab.class.getName());
 
-                System.out.println(pj.getName());
+  @Option(names = { "-v", "--verbose" }, description = "Provides more information.")
+  private boolean verbose;
 
-                if (root.exists()) {
-                    final var p = new Thread(new Pull(root, pj.getBranch()));
-                    p.start();
+  @Override
+  public void run(Boolean verbose) {
+    final Globals globals = Globals.getInstance();
+    final var parse = new Parse();
 
-                    try {
-                        p.join();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    final var k = new Thread(new Klone(pj.getUrl(), root, pj.getBranch()));
-                    k.start();
+    parse.all().forEach(configuration -> {
+      System.out.println();
+      System.out.println(new StringBuilder(configuration.topic().toUpperCase())
+          .toString());
 
-                    try {
-                        k.join();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        });
-    }
+      configuration.projects().forEach(project -> {
+        final var root = Paths
+            .get(globals.get("projects-home").toString(),
+                configuration.topic(), project.name())
+            .toFile();
+
+        final var message = new StringBuilder().append(project.name());
+        if (verbose) {
+          message.append(" - ").append(project.branch());
+        }
+
+        printinfo(project);
+        if (root.exists()) {
+          new Pull(root, project.branch()).run();
+        } else {
+          new Klone(project.url(), root, project.branch()).run();
+        }
+      });
+    });
+  }
+
+  @Override
+  public Integer call() {
+    run(verbose);
+    return 0;
+  }
+
+  public void printinfo(Project project) {
+    System.out.printf("%-4s    %-35s   %-70s   %s\n", "", project.name(), project.url(), project.branch());
+  }
 }

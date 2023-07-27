@@ -16,5 +16,5 @@
 package dev.easbarba.onur.commands;
 
 public interface ICommands {
-    public void run() throws InterruptedException;
+    public void run(Boolean verbose) throws InterruptedException;
 }

@@ -6,7 +6,9 @@ clean compile
 clean install
 
 exec:java -D exec.args="backup"
+exec:java -D exec.args="backup --verbose "
 exec:java -D exec.args="grab"
+exec:java -D exec.args="grab --verbose "
 exec:java -D exec.args="--help"
 exec:java -D exec.args=""
 
