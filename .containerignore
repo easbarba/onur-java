@@ -5,3 +5,4 @@ LICENSE
 Makefile
 prfix.bash
 manifest.scm
+.m2

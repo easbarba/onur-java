@@ -15,24 +15,19 @@
 
 package dev.easbarba.onur;
 
+import static picocli.CommandLine.Command;
+
 import dev.easbarba.onur.commands.Backup;
 import dev.easbarba.onur.commands.Grab;
-import java.util.concurrent.Callable;
 import picocli.CommandLine;
-import picocli.CommandLine.Command;
 
-@Command(name = "onur",
-         mixinStandardHelpOptions = true,
-         version = "0.3.0",
-         description = "Easily manage multiple FLOSS repositories.",
-         subcommands = {  Grab.class, Backup.class })
-public final class OnurApplication implements Callable<Integer> {
-  @Override
-  public Integer call() throws Exception {
-    System.out.printf("Onur");
-    return 0;
-  }
-
+@Command(
+    name = "onur",
+    mixinStandardHelpOptions = true,
+    version = "0.4.0",
+    description = "Easily manage multiple FLOSS repositories.",
+    subcommands = {Grab.class, Backup.class})
+public final class OnurApplication {
   public static void main(final String... args) {
     final int exitCode = new CommandLine(new OnurApplication()).execute(args);
     System.exit(exitCode);

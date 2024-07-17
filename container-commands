@@ -6,7 +6,7 @@ clean compile
 clean install
 
 exec:java -D exec.args="backup"
-exec:java -D exec.args="backup --verbose "
+exec:java -D exec.args="backup --verbose " 
 exec:java -D exec.args="grab"
 exec:java -D exec.args="grab --verbose "
 exec:java -D exec.args="--help"
@@ -19,3 +19,5 @@ dependency:resolve
 versions:display-plugin-updates
 versions:display-dependency-updates
 
+gradle --warning-mode all shadowJar
+clean compile -D skipTests assembly:single

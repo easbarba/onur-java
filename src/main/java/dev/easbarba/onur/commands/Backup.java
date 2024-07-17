@@ -16,27 +16,27 @@
 package dev.easbarba.onur.commands;
 
 import java.util.concurrent.Callable;
-
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 @Command(name = "backup", description = "Backup projects.")
 public final class Backup implements ICommands, Callable<Integer> {
-    public Backup() {
-    }
+  public Backup() {}
 
-    @Option(names = { "-v", "--verbose" }, description = "Provides more information.")
-    private boolean verbose;
+  @Option(
+      names = {"-v", "--verbose"},
+      description = "Provides more information.")
+  private boolean verbose;
 
-    @Override
-    public Integer call() {
-        run(verbose);
+  @Override
+  public Integer call() {
+    run(verbose);
 
-        return 0;
-    }
+    return 0;
+  }
 
-    @Override
-    public void run(Boolean verbose) {
-        System.out.println("Backing up");
-    }
+  @Override
+  public void run(Boolean verbose) {
+    System.out.println("Backing up");
+  }
 }

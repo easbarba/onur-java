@@ -21,7 +21,12 @@ Contributions are welcome via pull request.
 
 Please make sure to successfully check-up the guidelines list before sending a PR:
 
-- run `./prfix.bash`
-- run tests
+- check for plugin and dependencies updates 
+```sh
+./mvnw versions:display-plugin-updates
+./mvnw versions:display-dependency-updates
+```
+
+- run usual checkers with `./prfix.bash`: 
 - add due entries changes in `CHANGELOG.md`
 - tag per [SemVer](http://semver.org/).

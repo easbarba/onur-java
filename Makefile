@@ -11,36 +11,57 @@
 # You should have received a copy of the GNU General Public License
 # along with Onur. If not, see <https://www.gnu.org/licenses/>.
 
-# DEPENDENCIES: gawk, fzf, podman
+# DEPENDENCIES: gawk, fzf, podman, java 17, Oracle GraalVM 22.0.2+9.1
 
--include .env
+.DEFAULT_GOAL := test
 
 RUNNER ?= podman
 NAME := onur
 VERSION := $(shell gawk '/<version>/ { version=substr($$1,10,5); print version; exit }' pom.xml)
+CONTAINER_IMAGE := registry.gitlab.com/easbarba/onur-java:${VERSION}
 
+.PHONY: commands
 command:
 	@${RUNNER} run --rm -it \
 		--volume ${PWD}:/app:Z \
 		--workdir /app \
-		${OPENJDK_IMAGE} \
-		bash -c './prepare.bash && ./mvnw --settings ./.mvn/settings.xml clean compile $(shell cat commands | fzf)'
+		${CONTAINER_IMAGE} \
+		bash -c './mvnw --settings ./.mvn/settings.xml clean compile -P development $(shell cat container-commands | fzf)'
 
+.PHONY: test
 test:
 	@${RUNNER} run --rm -it \
 		--volume ${PWD}:/app:Z \
 		--workdir /app \
-		${OPENJDK_IMAGE} \
-		bash -c './prepare.bash && ./mvnw --settings ./.mvn/settings.xml clean compile test'
+		${CONTAINER_IMAGE} \
+		bash -c './mvnw --settings ./.mvn/settings.xml clean compile test'
 
-repl:
-	@${RUNNER} run --rm -it \
+.PHONY: image.build
+image.build:
+	${RUNNER} build --file ./Containerfile --tag ${CONTAINER_IMAGE}
+
+.PHONY: image.repl
+image.repl:
+	${RUNNER} run --rm -it \
 		--volume ${PWD}:/app:Z \
 		--workdir /app \
-		${OPENJDK_IMAGE} bash
+		${CONTAINER_IMAGE} bash
 
-build:
-	${RUNNER} build --file ./Containerfile --tag ${USER}/${NAME}:${VERSION}
+.PHONY: image.publish
+image.publish:
+	${RUNNER} push ${CONTAINER_IMAGE}
 
-.PHONY: test repl build command native
-.DEFAULT_GOAL := test
+.PHONY: install
+install:
+	# ./gradlew clean shadowJar -x test
+	./mvnw clean package -D skipTests assembly:single
+	native-image --no-fallback -jar target/onur-${VERSION}-jar-with-dependencies.jar -o ${HOME}/.local/bin/onur
+
+.PHONY: fmt
+fmt:
+	google-java-format -r ./src/main/java/dev/easbarba/onur/*/***
+	google-java-format -r ./src/test/java/dev/easbarba/onur/*/***
+
+.PHONY: system
+system:
+	guix shell --pure --container

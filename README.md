@@ -17,39 +17,63 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
 
 Easily manage multiple FLOSS repositories.
 
-[go](https://github.com/easbarba/qas-go) | [rust](https://github.com/easbarba/onur-rust) | [python](https://github.com/easbarba/onur-python) | [c](https://github.com/easbarba/onur-c) | [php](https://github.com/easbarba/onur-php) | [ruby](https://github.com/easbarba/qas-ruby)
+Easily manage multiple FLOSS repositories.
+[c](https://gitlab.com/easbarba/onur) | [dotnet](https://gitlab.com/easbarba/onur-dotnet) | [go](https://gitlab.com/easbarba/onur-go) | [python](https://gitlab.com/easbarba/onur-python) | [rust](https://gitlab.com/easbarba/onur-rust) | [php](https://gitlab.com/easbarba/onur-php) | [java](https://gitlab.com/easbarba/onur-java) 
+
+## Usage
+
+```shell
+onur grab
+onur backup nuxt,awesomewm,gitignore
+onur --help
+```
 
 # Installation
 
-## Usage
+`onur` as native executable requires Java 17 and `native-image`, the install it  with `make install`, or generate a production jar with `mvn clean compile -D skipTests -P prod assembly:single`.
+ 
+## Configuration file
 
 `onur` consumes configuration in the following manners:
 
 By default it looks for configuration files at `$XDG_CONFIG/onur` or in the
 directory set in the `$ONUR_CONFIG_HOME` environment variable.
 
-```shell
-onur grab
-onur archive nuxt,awesomewm,gitignore
-```
-
-## Configuration file
-
-A `onur` single configuration file:
-
 ```json
-[
-  {
-    "name": "awesomewm",
-    "branch": "dev",
-    "url": "https://github.com/awesomeWM/awesome"
-  },
-  {
-    "name": "nuxt",
-    "branch": "main",
-    "url": "https://github.com/nuxt/framework"
-  }
-]
+{
+  "main": [
+    {
+      "name": "awesomewm",
+      "url": "https://github.com/awesomeWM/awesome"
+    },
+    {
+      "name": "nuxt",
+      "branch": "main",
+      "url": "https://github.com/nuxt/framework"
+    }
+  ],
+  "misc": [
+    {
+      "name": "awesomewm",
+      "url": "https://github.com/awesomeWM/awesome"
+    },
+    {
+      "name": "nuxt",
+      "branch": "main",
+      "url": "https://github.com/nuxt/framework"
+    }
+  ],
+  "tools/gnu": [
+    {
+      "name": "inetutils",
+      "url": "https://git.savannah.gnu.org/git/inetutils.git"
+    },
+    {
+      "name": "gnu-wget",
+      "url": "https://git.savannah.gnu.org/git/wget.git"
+    }
+  ]
+}
 ```
 
 More examples of configuration files are at `examples`.
@@ -61,6 +85,13 @@ More examples of configuration files are at `examples`.
 
 `mvn exec:java -D exec.args="grab" -D single-branch=true -D quiet=false -D depth=5`
 
+```toml
+[git]
+single-branch = true
+quiet = true
+depth = 1
+```
+
 ## Options
 
 Consult `onur --help` for more options.
@@ -69,6 +100,22 @@ Consult `onur --help` for more options.
 
 In a system with GNU Guix binary installed, its even easier to grab all
 dependencies: `guix shell`.
+
+## DEVELOPMENT
+
+In development it may suit you better running the tests in a isolated environment
+with containers, that can be done so:
+
+    docker run --rm -it $(docker build -qf Containerfile.run)
+ 
+or: 
+
+    podman build https://gitlab.com/easbarba/onur/-/raw/main/Containerfile.dev --tag onur:latest
+    podman run --rm -it onur:latest 
+
+
+![Onur CLI](onur.png)
+
 
 ## TODO
 

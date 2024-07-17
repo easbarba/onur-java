@@ -16,10 +16,10 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <version>0.3.0</version>
+  <version>0.4.0</version>
   <groupId>dev.easbarba.onur</groupId>
   <artifactId>onur</artifactId>
 
@@ -39,10 +39,12 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
     <org.codehaus.mojo.exec-maven-plugin.version>3.3.0</org.codehaus.mojo.exec-maven-plugin.version>
     <io.smallrye.config.version>3.9.0</io.smallrye.config.version>
     <org.eclipse.jgit.version>6.10.0.202406032230-r</org.eclipse.jgit.version>
-    <org.apache.logging.log4j.version>3.0.0-beta2</org.apache.logging.log4j.version>
+    <org.apache.logging.log4j.log4j-slf4j2-impl.version>2.23.1</org.apache.logging.log4j.log4j-slf4j2-impl.version>
+    <org.apache.logging.log4j.version>2.17.1</org.apache.logging.log4j.version>
+    <org.slf4j.version>2.0.13</org.slf4j.version>
   </properties>
 
- <licenses>
+  <licenses>
     <license>
       <name>GNU GENERAL PUBLIC LICENSE -Version 3</name>
       <url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
@@ -63,114 +65,194 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
 	</dependencyManagement>
 
 	<dependencies>
+    <dependency>
+      <groupId>info.picocli</groupId>
+      <artifactId>picocli</artifactId>
+      <version>${info.picocli.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson-databind.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>exec-maven-plugin</artifactId>
+      <version>${org.codehaus.mojo.exec-maven-plugin.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit</artifactId>
+      <version>${org.eclipse.jgit.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commons-io.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${org.slf4j.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>${org.apache.logging.log4j.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>${org.apache.logging.log4j.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j2-impl</artifactId>
+      <version>${org.apache.logging.log4j.log4j-slf4j2-impl.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.smallrye.config</groupId>
+      <artifactId>smallrye-config</artifactId>
+      <version>${io.smallrye.config.version}</version>
+    </dependency>
+
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-  <dependency>
-    <groupId>info.picocli</groupId>
-    <artifactId>picocli</artifactId>
-    <version>${info.picocli.version}</version>
-  </dependency>
-
-  <dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
-    <artifactId>jackson-databind</artifactId>
-    <version>${jackson-databind.version}</version>
-  </dependency>
-
-  <dependency>
-    <groupId>org.codehaus.mojo</groupId>
-    <artifactId>exec-maven-plugin</artifactId>
-    <version>${org.codehaus.mojo.exec-maven-plugin.version}</version>
-  </dependency>
-
-  <dependency>
-    <groupId>org.eclipse.jgit</groupId>
-    <artifactId>org.eclipse.jgit</artifactId>
-    <version>${org.eclipse.jgit.version}</version>
-  </dependency>
-
-  <dependency>
-    <groupId>commons-io</groupId>
-    <artifactId>commons-io</artifactId>
-    <version>${commons-io.version}</version>
-  </dependency>
-
-  <dependency>
-    <groupId>org.apache.logging.log4j</groupId>
-    <artifactId>log4j-api</artifactId>
-    <version>${org.apache.logging.log4j.version}</version>
-  </dependency>
-
-  <dependency>
-    <groupId>org.apache.logging.log4j</groupId>
-    <artifactId>log4j-core</artifactId>
-    <version>${org.apache.logging.log4j.version}</version>
-  </dependency>
-
-  <dependency>
-    <groupId>org.apache.logging.log4j</groupId>
-    <artifactId>log4j-slf4j2-impl</artifactId>
-    <version>${org.apache.logging.log4j.version}</version>
-    <scope>test</scope>
-  </dependency>
-
-  <dependency>
-    <groupId>io.smallrye.config</groupId>
-    <artifactId>smallrye-config</artifactId>
-    <version>${io.smallrye.config.version}</version>
-  </dependency>
 	</dependencies>
+
+  <profiles>
+    <profile>
+      <id>dev</id>
+      <properties>
+        <maven.debug>true</maven.debug>
+        <log4j.configurationFile>log4j2-dev.xml</log4j.configurationFile>
+      </properties>
+      <build>
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+              <include>log4j2-dev.xml</include>
+            </includes>
+          </resource>
+        </resources>
+      </build>
+    </profile>
+
+    <profile>
+      <id>prod</id>
+      <properties>
+        <log4j.configurationFile>log4j2-prod.xml</log4j.configurationFile>
+      </properties>
+      <build>
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+              <include>log4j2-prod.xml</include>
+            </includes>
+          </resource>
+        </resources>
+      </build>
+    </profile>
+  </profiles>
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
-        <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>3.7.1</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <mainClass>dev.easbarba.onur.OnurApplication</mainClass>
+              </manifest>
+            </archive>
+            <descriptorRefs>
+              <descriptorRef>jar-with-dependencies</descriptorRef>
+            </descriptorRefs>
+          </configuration>
+        </plugin>
+
+
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.4.0</version>
         </plugin>
-        <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.3.1</version>
         </plugin>
+
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.11.0</version>
+          <version>3.13.0</version>
         </plugin>
+
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.3.1</version>
         </plugin>
+
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.4.2</version>
+          <configuration>
+            <archive>
+              <manifestEntries>
+                <Main-Class>dev.easbarba.onur.OnurApplication</Main-Class>
+              </manifestEntries>
+            </archive>
+          </configuration>
         </plugin>
+
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>3.1.2</version>
         </plugin>
+
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>3.1.2</version>
         </plugin>
-        <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
+
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.7.1</version>
+          <version>4.0.0-M16</version>
         </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>3.2.1</version> <!-- Use the latest version -->
+          <configuration>
+            <configLocation>google_checks.xml</configLocation>
+          </configuration>
+        </plugin>
+
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.4.4</version>
+          <version>3.6.2</version>
         </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.5.0</version>
           <executions>
             <execution>
               <id>enforce-maven</id>
@@ -190,4 +272,5 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
       </plugins>
     </pluginManagement>
   </build>
+
 </project>

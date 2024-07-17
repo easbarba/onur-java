@@ -16,27 +16,33 @@
 package dev.easbarba.onur.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.nio.file.Paths;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public final class ParseTest {
-  private Parse parse;
+public final class RepositoryTest {
+  private Repository repository;
 
   @BeforeEach
   void init() {
-    this.parse = new Parse();
+    this.repository = new Repository();
   }
 
   @Test
-  public void shouldHaveMiscCorrectProjectsSize() {
-    var fi = Paths.get(System.getProperty("user.home"), ".config", "onur", "misc.json");
-    try {
-      var config = parse.single(fi).topics().get("oss");
-      assertEquals(3, config.size());
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
+  public void shoudl_have_correct_configurations_count() {
+    assertEquals(this.repository.count(), 4);
+  }
+
+  @Test
+  public void shouldHaveASpecificConfiguration() {
+    assertEquals(
+        this.repository.namespath().stream().findFirst().get().getFileName().toString(),
+        "lualink.json");
+  }
+
+  @Test
+  public void configuration_should_exist() {
+    assertTrue(this.repository.exists());
   }
 }

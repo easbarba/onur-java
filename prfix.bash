@@ -14,6 +14,5 @@
 # along with Onur. If not, see <https://www.gnu.org/licenses/>.
 
 ./mvnw validate
-./mvnw fmt
-./mvnw lint
-./mvnw test
+mvn checkstyle:check
+make fmt lint test

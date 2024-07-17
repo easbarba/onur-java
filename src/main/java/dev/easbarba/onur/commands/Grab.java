@@ -20,20 +20,21 @@ import dev.easbarba.onur.actions.Pull;
 import dev.easbarba.onur.database.Parse;
 import dev.easbarba.onur.domain.Project;
 import dev.easbarba.onur.misc.Globals;
+import java.nio.file.Paths;
+import java.util.Optional;
+import java.util.concurrent.Callable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-import java.nio.file.Paths;
-import java.util.concurrent.Callable;
-
-// import org.apache.logging.log4j.LogManager;
-// import org.apache.logging.log4j.Logger;
-
 @Command(name = "grab", description = "Grab projects.")
 public class Grab implements ICommands, Callable<Integer> {
-  // private static final Logger LOGGER = LogManager.getLogger(Grab.class.getName());
+  private static final Logger LOGGER = LogManager.getLogger(Grab.class.getName());
 
-  @Option(names = { "-v", "--verbose" }, description = "Provides more information.")
+  @Option(
+      names = {"-v", "--verbose"},
+      description = "Provides more information.")
   private boolean verbose;
 
   @Override
@@ -41,30 +42,45 @@ public class Grab implements ICommands, Callable<Integer> {
     final Globals globals = Globals.getInstance();
     final var parse = new Parse();
 
-    parse.all().forEach(configuration -> {
-      System.out.println();
-      System.out.println(new StringBuilder(configuration.topic().toUpperCase())
-          .toString());
+    parse
+        .multi()
+        .forEach(
+            configuration -> {
+              System.out.println();
+              System.out.println(new StringBuilder(configuration.name()).toString());
 
-      configuration.projects().forEach(project -> {
-        final var root = Paths
-            .get(globals.get("projects-home").toString(),
-                configuration.topic(), project.name())
-            .toFile();
+              configuration
+                  .topics()
+                  .forEach(
+                      (topicName, projects) -> {
+                        System.out.printf("%-2s%s\n", " ", topicName);
 
-        final var message = new StringBuilder().append(project.name());
-        if (verbose) {
-          message.append(" - ").append(project.branch());
-        }
+                        projects.forEach(
+                            project -> {
+                              final var absPath =
+                                  Paths.get(
+                                          globals.get("projects-home").toString(),
+                                          configuration.name(),
+                                          topicName,
+                                          project.name())
+                                      .toFile();
 
-        printinfo(project);
-        if (root.exists()) {
-          new Pull(root, project.branch()).run();
-        } else {
-          new Klone(project.url(), root, project.branch()).run();
-        }
-      });
-    });
+                              final var message = new StringBuilder().append(project.name());
+                              if (verbose) {
+                                message.append(" - ").append(project.branch());
+                              }
+
+                              printinfo(project);
+                              if (absPath.exists()) {
+                                new Pull(absPath, project.branch()).run();
+                              } else {
+                                new Klone(project.url(), absPath, project.branch()).run();
+                              }
+                            });
+
+                        System.out.println();
+                      });
+            });
   }
 
   @Override
@@ -74,6 +90,20 @@ public class Grab implements ICommands, Callable<Integer> {
   }
 
   public void printinfo(Project project) {
-    System.out.printf("%-4s    %-35s   %-70s   %s\n", "", project.name(), project.url(), project.branch());
+    var nameTruncated =
+        Optional.ofNullable(project.name())
+            .filter(s -> s.length() >= 30)
+            .map(s -> s.substring(0, 30).concat("..."))
+            .orElseGet(() -> project.name());
+    var urlTruncated =
+        Optional.ofNullable(project.url())
+            .filter(s -> s.length() >= 60)
+            .map(s -> s.substring(0, 60).concat("..."))
+            .orElseGet(() -> project.url());
+    var message =
+        String.format("%-4s%-40s%-70s%s\n", " ", nameTruncated, urlTruncated, project.branch());
+
+    System.out.printf(message);
+    LOGGER.info(message);
   }
 }

@@ -7,23 +7,13 @@ on:
     branches: ["main"]
 
 jobs:
-  build:
+  job:
     runs-on: ubuntu-latest
+    container:
+      image: registry.gitlab.com/easbarba/onur-java:0.4.0
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK LTS
-        uses: actions/setup-java@v3
-        with:
-          java-version: "21"
-          distribution: "temurin"
-          cache: maven
-
-      - name: Prepare Configuration Files
-        run: ./prepare.bash
-
-      - name: Build
-        run: mvn -B package --file pom.xml
 
       - name: Test
-        run: mvn test --file pom.xml
+        run: ./mvnw --settings ./.mvn/settings.xml clean compile test
